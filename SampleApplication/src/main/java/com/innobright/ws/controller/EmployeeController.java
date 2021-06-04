@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
+import com.innobright.ws.exception.EmployeeNotFoundException;
 import com.innobright.ws.model.Employee;
 import com.innobright.ws.model.EmployeeDaoService;
 
@@ -54,7 +55,13 @@ public class EmployeeController {
 	@GetMapping(path = "/{empId}")
 	public Employee getEmpoyeeById(@PathVariable(name = "empId") String id) {
 //		return String.format("GetEmp , %s", id);	
-		return service.findOne(id);
+		Employee findOne = service.findOne(id);
+//		if(findOne.getId() == null)
+//			return null;
+		if(findOne == null)
+			throw new EmployeeNotFoundException("Employee details not found on this id : " + id);
+		else
+		    return service.findOne(id);
 	}
 	
 //	Ex: http://localhost:8080/employees?page=2&limit25&sort=asc
