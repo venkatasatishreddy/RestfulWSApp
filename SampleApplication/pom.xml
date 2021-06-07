@@ -52,7 +52,7 @@
 		     If u have any non-technicle folks and u have to provide Apis in proper manner u can use Hal-->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-hal-explorer</artifactId>
+			<artifactId>spring-data-rest-hal-explorer</artifactId> 
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
