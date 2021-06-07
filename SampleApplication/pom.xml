@@ -46,6 +46,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		
+		<!-- By using Hal explorer we can provide simpler way to explore Application Rest API
+		     Instead of using Rest clients like postman, SoupUi, etc. We can use Hal for Rest Api calls
+		     If u have any non-technicle folks and u have to provide Apis in proper manner u can use Hal-->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-explorer</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
