@@ -2,11 +2,21 @@ package com.innobright.ws.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class Employee {
 	private String id;
+	@NotNull
+	@Size(min = 2, message = "Name size must be more than two charecters")
 	private String firstName;
+	@NotNull
 	private String lastName;
+	@Email(message = "Must be a well-formed email address")
 	private String email;
+	@Past
 	private Date date;
 	
 	public Employee() {

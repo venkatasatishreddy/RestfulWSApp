@@ -4,9 +4,13 @@ import java.net.URI;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.util.UriComponents;
 
 import com.innobright.ws.exception.EmployeeNotFoundException;
 import com.innobright.ws.model.Employee;
@@ -52,16 +54,38 @@ public class EmployeeController {
 		return service.findAll();
 	}
 	
+	/*
+	 * @GetMapping(path = "/{empId}") public Employee
+	 * getEmpoyeeById(@PathVariable(name = "empId") String id) { // return
+	 * String.format("GetEmp , %s", id); Employee findOne = service.findOne(id); //
+	 * if(findOne.getId() == null) // return null; if(findOne == null) throw new
+	 * EmployeeNotFoundException("Employee details not found on this id : " + id);
+	 * else return service.findOne(id); }
+	 */
+	
+	/*
+	 * In below method we are implementing HATEOAS functionality, by using this we
+	 * can provide additional links in response. Ex: By using Id we are getting
+	 * emaployee details and along with that i have to show one link to get all
+	 * employee deatails.
+	 */
 	@GetMapping(path = "/{empId}")
-	public Employee getEmpoyeeById(@PathVariable(name = "empId") String id) {
-//		return String.format("GetEmp , %s", id);	
-		Employee findOne = service.findOne(id);
-//		if(findOne.getId() == null)
-//			return null;
-		if(findOne == null)
+	public EntityModel<Employee> getEmpoyeeById(@PathVariable(name = "empId") String id) {
+		Employee employee = service.findOne(id);
+		if(employee == null)
 			throw new EmployeeNotFoundException("Employee details not found on this id : " + id);
-		else
-		    return service.findOne(id);
+		
+		EntityModel<Employee> model = EntityModel.of(employee);
+		
+//		WebMvcLinkBuilder linkToAllEmployees = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getEmpoyees());	
+//		we can minimize abt stmt with static imports.
+//		We are linking url on getEmployee method to get all employee details.
+		WebMvcLinkBuilder linkToAllEmployees = linkTo(methodOn(this.getClass()).getEmpoyees());	
+		
+//		we have to provide relation to identify the link in response.
+		model.add(linkToAllEmployees.withRel("all-employees"));		
+		
+		return model;
 	}
 	
 //	Ex: http://localhost:8080/employees?page=2&limit25&sort=asc
@@ -75,7 +99,7 @@ public class EmployeeController {
 //	}
 	
 	@PostMapping
-	public ResponseEntity<Object> createEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Object> createEmployee(@Valid @RequestBody Employee employee) {
 		Employee saveEmployee = service.save(employee);
 		
 		/*

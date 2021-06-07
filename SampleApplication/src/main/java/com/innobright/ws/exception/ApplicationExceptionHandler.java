@@ -2,8 +2,10 @@ package com.innobright.ws.exception;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -30,6 +32,15 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 	public final ResponseEntity<Object> handleEmployeeNotFoundAndNullException(Exception ex, WebRequest request) {
 		CustomExceptionResponse exeResp = new CustomExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 		return new ResponseEntity<Object>(exeResp, HttpStatus.NOT_FOUND);
+	}
+	
+//	By Using below method we can validate the enduser data.
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(
+			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+//		CustomExceptionResponse exeResp = new CustomExceptionResponse(new Date(), ex.getMessage(), ex.getBindingResult().toString());
+		CustomExceptionResponse exeResp = new CustomExceptionResponse(new Date(), "Validation failed", ex.getBindingResult().toString());
+		return new ResponseEntity<Object>(exeResp, HttpStatus.BAD_REQUEST);
 	}
 
 }
