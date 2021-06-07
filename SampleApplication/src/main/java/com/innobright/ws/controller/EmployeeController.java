@@ -38,7 +38,7 @@ public class EmployeeController {
 	@Resource
 	EmployeeDaoService service;
 	
-//	By using this we can read messages.properties file/
+//	By using this we can read messages.properties file values.
 	@Resource
 	MessageSource messageSource;
 	
