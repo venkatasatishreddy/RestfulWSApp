@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.6</version>
+		<version>2.5.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.innobright.ws</groupId>
@@ -46,14 +46,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		
-		<!-- By using Hal explorer we can provide simpler way to explore Application Rest API
-		     Instead of using Rest clients like postman, SoupUi, etc. We can use Hal for Rest Api calls
-		     If u have any non-technicle folks and u have to provide Apis in proper manner u can use Hal-->
+
+		<!-- By using Hal explorer we can provide simpler way to explore Application 
+			Rest API Instead of using Rest clients like postman, SoupUi, etc. We can 
+			use Hal for Rest Api calls If u have any non-technicle folks and u have to 
+			provide Apis in proper manner u can use Hal -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-rest-hal-explorer</artifactId> 
+			<artifactId>spring-data-rest-hal-explorer</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -63,7 +73,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

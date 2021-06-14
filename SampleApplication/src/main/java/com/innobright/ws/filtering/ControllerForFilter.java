@@ -17,7 +17,7 @@ public class ControllerForFilter {
 	@GetMapping(path = "/filtering")
 	public MappingJacksonValue getFilter() {
 		FilterClass filterClass = new FilterClass("v1", "v2", "v3");
-//		By using below class we can set what are the propeties have to set in a response.
+//		By using below class we can set what are the propeties have to be in a response.
 		SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("var1", "var2");
 		
 //		In below stmt we have mentioned on which obj we have to apply MappingJacksonValue.
